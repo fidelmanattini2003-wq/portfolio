@@ -1,0 +1,604 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Fidel Manattini | Diseño Industrial</title>
+  <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=DM+Sans:ital,wght@0,300;0,400;0,500;1,300&display=swap" rel="stylesheet"/>
+  <style>
+    :root {
+      --red: #e8000d;
+      --black: #0a0a0a;
+      --white: #f5f5f0;
+      --gray: #888;
+      --font-display: 'Bebas Neue', sans-serif;
+      --font-body: 'DM Sans', sans-serif;
+    }
+
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    html { scroll-behavior: smooth; }
+    body {
+      background: var(--white);
+      color: var(--black);
+      font-family: var(--font-body);
+      font-weight: 300;
+      overflow-x: hidden;
+    }
+
+    /* ── NAV ── */
+    nav {
+      position: fixed;
+      top: 0; left: 0; right: 0;
+      z-index: 100;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 0 48px;
+      height: 64px;
+      background: var(--white);
+      border-bottom: 1px solid rgba(0,0,0,0.08);
+    }
+
+    .nav-logo {
+      font-family: var(--font-body);
+      font-weight: 500;
+      font-size: 14px;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      color: var(--black);
+      text-decoration: none;
+    }
+
+    .nav-right {
+      display: flex;
+      align-items: center;
+      gap: 40px;
+    }
+
+    .nav-links {
+      display: flex;
+      gap: 40px;
+      list-style: none;
+    }
+
+    .nav-links a {
+      font-size: 13px;
+      font-weight: 400;
+      letter-spacing: 0.06em;
+      text-transform: uppercase;
+      color: var(--black);
+      text-decoration: none;
+      position: relative;
+      transition: color 0.2s;
+    }
+
+    .nav-links a::after {
+      content: '';
+      position: absolute;
+      bottom: -3px; left: 0;
+      width: 0; height: 1px;
+      background: var(--red);
+      transition: width 0.25s ease;
+    }
+
+    .nav-links a:hover { color: var(--red); }
+    .nav-links a:hover::after,
+    .nav-links a.active::after { width: 100%; }
+    .nav-links a.active { color: var(--red); }
+
+    /* Language switcher */
+    .lang-switcher {
+      display: flex;
+      align-items: center;
+      border: 1px solid rgba(0,0,0,0.15);
+      border-radius: 2px;
+      overflow: hidden;
+    }
+
+    .lang-btn {
+      padding: 5px 10px;
+      font-size: 11px;
+      font-weight: 500;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      cursor: pointer;
+      border: none;
+      background: transparent;
+      color: var(--gray);
+      font-family: var(--font-body);
+      transition: background 0.2s, color 0.2s;
+    }
+
+    .lang-btn.active {
+      background: var(--black);
+      color: var(--white);
+    }
+
+    .lang-btn:hover:not(.active) {
+      background: rgba(0,0,0,0.05);
+      color: var(--black);
+    }
+
+    /* ── HERO ── */
+    .hero {
+      position: relative;
+      height: 100vh;
+      min-height: 600px;
+      display: flex;
+      flex-direction: column;
+      justify-content: flex-end;
+      padding: 0 48px 64px;
+      overflow: hidden;
+      background: var(--black);
+    }
+
+    .hero-bg {
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(135deg, #1a1a1a 0%, #0a0a0a 60%);
+    }
+
+    .hero-bg::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background-image:
+        linear-gradient(rgba(232,0,13,0.03) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(232,0,13,0.03) 1px, transparent 1px);
+      background-size: 60px 60px;
+    }
+
+    .hero-accent {
+      position: absolute;
+      top: 0; right: 0;
+      width: 40%; height: 100%;
+      background: linear-gradient(180deg, var(--red) 0%, transparent 100%);
+      opacity: 0.06;
+      pointer-events: none;
+    }
+
+    .hero-label {
+      position: relative;
+      font-size: 13px;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      color: rgba(255,255,255,0.4);
+      margin-bottom: 16px;
+      animation: fadeUp 0.8s ease both;
+    }
+
+    .hero-title {
+      position: relative;
+      font-family: var(--font-display);
+      font-size: clamp(80px, 14vw, 180px);
+      line-height: 0.9;
+      color: var(--white);
+      letter-spacing: 0.02em;
+      animation: fadeUp 0.8s 0.1s ease both;
+    }
+
+    .hero-title span { color: var(--red); display: block; }
+
+    .hero-sub {
+      position: relative;
+      margin-top: 32px;
+      font-size: 14px;
+      font-weight: 300;
+      color: rgba(255,255,255,0.45);
+      letter-spacing: 0.04em;
+      max-width: 360px;
+      line-height: 1.7;
+      animation: fadeUp 0.8s 0.2s ease both;
+    }
+
+    .hero-scroll {
+      position: absolute;
+      bottom: 64px; right: 48px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 8px;
+      color: rgba(255,255,255,0.3);
+      font-size: 11px;
+      letter-spacing: 0.15em;
+      text-transform: uppercase;
+      animation: fadeUp 0.8s 0.4s ease both;
+    }
+
+    .hero-scroll::after {
+      content: '';
+      width: 1px; height: 60px;
+      background: linear-gradient(to bottom, rgba(255,255,255,0.3), transparent);
+      animation: scrollLine 1.5s ease infinite;
+    }
+
+    @keyframes scrollLine {
+      0%   { transform: scaleY(0); transform-origin: top; }
+      50%  { transform: scaleY(1); transform-origin: top; }
+      51%  { transform: scaleY(1); transform-origin: bottom; }
+      100% { transform: scaleY(0); transform-origin: bottom; }
+    }
+
+    /* ── PROJECTS ── */
+    .projects { padding: 120px 48px; }
+
+    .section-header {
+      display: flex;
+      align-items: baseline;
+      justify-content: space-between;
+      margin-bottom: 64px;
+    }
+
+    .section-title {
+      font-family: var(--font-display);
+      font-size: clamp(36px, 5vw, 60px);
+      letter-spacing: 0.04em;
+    }
+
+    .section-title span { color: var(--red); }
+    .section-count { font-size: 12px; letter-spacing: 0.12em; text-transform: uppercase; color: var(--gray); }
+
+    /* Asymmetric grid */
+    .grid {
+      display: grid;
+      grid-template-columns: repeat(12, 1fr);
+      gap: 12px;
+    }
+
+    .project-card:nth-child(1) { grid-column: span 7; grid-row: span 2; min-height: 560px; }
+    .project-card:nth-child(2) { grid-column: span 5; min-height: 272px; }
+    .project-card:nth-child(3) { grid-column: span 5; min-height: 272px; }
+    .project-card:nth-child(4) { grid-column: span 4; min-height: 280px; }
+    .project-card:nth-child(5) { grid-column: span 4; min-height: 280px; }
+    .project-card:nth-child(6) { grid-column: span 4; min-height: 280px; }
+    .project-card:nth-child(7) { grid-column: span 6; min-height: 280px; }
+    .project-card:nth-child(8) { grid-column: span 6; min-height: 280px; }
+
+    .project-card {
+      position: relative;
+      overflow: hidden;
+      cursor: pointer;
+      background: #111;
+    }
+
+    /* Hover image swap */
+    .project-img {
+      position: absolute;
+      inset: 0;
+      width: 100%; height: 100%;
+      object-fit: cover;
+      transition: opacity 0.5s ease, transform 0.6s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+    }
+
+    .project-img.primary   { opacity: 1; z-index: 1; }
+    .project-img.secondary { opacity: 0; z-index: 2; }
+
+    .project-card:hover .project-img.primary   { opacity: 0; transform: scale(1.04); }
+    .project-card:hover .project-img.secondary { opacity: 1; transform: scale(1.04); }
+
+    .project-placeholder {
+      position: absolute;
+      inset: 0;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-family: var(--font-display);
+      font-size: 80px;
+      color: rgba(255,255,255,0.04);
+      letter-spacing: 0.1em;
+      background: linear-gradient(135deg, #1c1c1c, #111);
+    }
+
+    .project-overlay {
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(to top, rgba(0,0,0,0.8) 0%, transparent 55%);
+      opacity: 0;
+      transition: opacity 0.35s ease;
+      z-index: 3;
+    }
+
+    .project-card:hover .project-overlay { opacity: 1; }
+
+    .project-info {
+      position: absolute;
+      bottom: 0; left: 0; right: 0;
+      padding: 24px;
+      transform: translateY(8px);
+      transition: transform 0.35s ease;
+      z-index: 4;
+    }
+
+    .project-card:hover .project-info { transform: translateY(0); }
+
+    .project-tag {
+      font-size: 10px;
+      letter-spacing: 0.18em;
+      text-transform: uppercase;
+      color: var(--red);
+      margin-bottom: 6px;
+    }
+
+    .project-name {
+      font-family: var(--font-display);
+      font-size: 22px;
+      letter-spacing: 0.06em;
+      color: var(--white);
+      line-height: 1.1;
+    }
+
+    .project-card:nth-child(1) .project-name { font-size: 34px; }
+
+    .badge-featured {
+      display: inline-block;
+      background: var(--red);
+      color: var(--white);
+      font-size: 9px;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      padding: 3px 8px;
+      margin-bottom: 8px;
+      font-family: var(--font-body);
+    }
+
+    /* ── ABOUT ── */
+    .about-strip {
+      background: var(--black);
+      padding: 100px 48px;
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 80px;
+      align-items: center;
+    }
+
+    .about-title {
+      font-family: var(--font-display);
+      font-size: clamp(48px, 6vw, 80px);
+      color: var(--white);
+      line-height: 0.95;
+      letter-spacing: 0.03em;
+    }
+
+    .about-title span { color: var(--red); }
+
+    .about-body {
+      color: rgba(255,255,255,0.5);
+      font-size: 15px;
+      line-height: 1.8;
+      font-weight: 300;
+    }
+
+    .about-body p + p { margin-top: 16px; }
+
+    .btn {
+      display: inline-block;
+      margin-top: 32px;
+      padding: 14px 32px;
+      border: 1px solid var(--red);
+      color: var(--red);
+      font-size: 12px;
+      letter-spacing: 0.15em;
+      text-transform: uppercase;
+      text-decoration: none;
+      font-family: var(--font-body);
+      transition: background 0.25s, color 0.25s;
+    }
+
+    .btn:hover { background: var(--red); color: var(--white); }
+
+    /* ── FOOTER ── */
+    footer {
+      padding: 48px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      border-top: 1px solid rgba(0,0,0,0.1);
+    }
+
+    .footer-logo { font-family: var(--font-display); font-size: 24px; letter-spacing: 0.1em; }
+    .footer-logo span { color: var(--red); }
+    .footer-copy { font-size: 12px; color: var(--gray); letter-spacing: 0.06em; }
+
+    /* ── ANIMATIONS ── */
+    @keyframes fadeUp {
+      from { opacity: 0; transform: translateY(24px); }
+      to   { opacity: 1; transform: translateY(0); }
+    }
+
+    .reveal { opacity: 0; transform: translateY(32px); transition: opacity 0.7s ease, transform 0.7s ease; }
+    .reveal.visible { opacity: 1; transform: translateY(0); }
+
+    /* ── RESPONSIVE ── */
+    @media (max-width: 900px) {
+      nav { padding: 0 24px; }
+      .nav-links { display: none; }
+      .hero { padding: 0 24px 48px; }
+      .projects { padding: 80px 24px; }
+      .grid { grid-template-columns: 1fr 1fr; gap: 8px; }
+      .project-card:nth-child(n) { grid-column: span 1 !important; grid-row: span 1 !important; min-height: 220px !important; }
+      .project-card:nth-child(1) { grid-column: span 2 !important; min-height: 320px !important; }
+      .about-strip { grid-template-columns: 1fr; padding: 64px 24px; gap: 40px; }
+      footer { padding: 32px 24px; flex-direction: column; gap: 16px; text-align: center; }
+    }
+
+    @media (max-width: 560px) {
+      .grid { grid-template-columns: 1fr; }
+      .project-card:nth-child(n) { grid-column: span 1 !important; }
+    }
+  </style>
+</head>
+<body>
+
+  <nav>
+    <a href="#" class="nav-logo">Fidel Manattini</a>
+    <div class="nav-right">
+      <ul class="nav-links">
+        <li><a href="#proyectos" class="active" data-es="Proyectos" data-en="Projects">Proyectos</a></li>
+        <li><a href="#exploraciones" data-es="Exploraciones" data-en="Explorations">Exploraciones</a></li>
+        <li><a href="#sobre-mi" data-es="Sobre mí" data-en="About me">Sobre mí</a></li>
+        <li><a href="#contacto" data-es="Contacto" data-en="Contact">Contacto</a></li>
+      </ul>
+      <div class="lang-switcher">
+        <button class="lang-btn active" onclick="setLang('es')">ES</button>
+        <button class="lang-btn" onclick="setLang('en')">EN</button>
+      </div>
+    </div>
+  </nav>
+
+  <section class="hero">
+    <div class="hero-bg"></div>
+    <div class="hero-accent"></div>
+    <p class="hero-label" data-es="Diseño Industrial · Buenos Aires" data-en="Industrial Design · Buenos Aires">Diseño Industrial · Buenos Aires</p>
+    <h1 class="hero-title">Fidel<span>Manattini</span></h1>
+    <p class="hero-sub" data-es="Diseño de objetos con intención. Cada forma tiene una razón, cada detalle una función." data-en="Designing objects with intention. Every form has a reason, every detail a function.">
+      Diseño de objetos con intención. Cada forma tiene una razón, cada detalle una función.
+    </p>
+    <div class="hero-scroll">Scroll</div>
+  </section>
+
+  <section class="projects" id="proyectos">
+    <div class="section-header reveal">
+      <h2 class="section-title">Proyectos <span>.</span></h2>
+      <span class="section-count" data-es="08 trabajos seleccionados" data-en="08 selected works">08 trabajos seleccionados</span>
+    </div>
+
+    <div class="grid">
+
+      <article class="project-card reveal">
+        <div class="project-placeholder">01</div>
+        <div class="project-overlay"></div>
+        <div class="project-info">
+          <span class="badge-featured" data-es="Destacado" data-en="Featured">Destacado</span>
+          <p class="project-tag" data-es="Producto · 2024" data-en="Product · 2024">Producto · 2024</p>
+          <h3 class="project-name" data-es="Exploraciones Morfológicas" data-en="Morphological Explorations">Exploraciones Morfológicas</h3>
+        </div>
+      </article>
+
+      <article class="project-card reveal" style="transition-delay:0.08s">
+        <div class="project-placeholder">02</div>
+        <div class="project-overlay"></div>
+        <div class="project-info">
+          <p class="project-tag" data-es="Concepto · 2024" data-en="Concept · 2024">Concepto · 2024</p>
+          <h3 class="project-name" data-es="Proyecto 02" data-en="Project 02">Proyecto 02</h3>
+        </div>
+      </article>
+
+      <article class="project-card reveal" style="transition-delay:0.12s">
+        <div class="project-placeholder">03</div>
+        <div class="project-overlay"></div>
+        <div class="project-info">
+          <p class="project-tag" data-es="Industrial · 2023" data-en="Industrial · 2023">Industrial · 2023</p>
+          <h3 class="project-name" data-es="Proyecto 03" data-en="Project 03">Proyecto 03</h3>
+        </div>
+      </article>
+
+      <article class="project-card reveal" style="transition-delay:0.16s">
+        <div class="project-placeholder">04</div>
+        <div class="project-overlay"></div>
+        <div class="project-info">
+          <p class="project-tag" data-es="Ergonomía · 2023" data-en="Ergonomics · 2023">Ergonomía · 2023</p>
+          <h3 class="project-name" data-es="Proyecto 04" data-en="Project 04">Proyecto 04</h3>
+        </div>
+      </article>
+
+      <article class="project-card reveal" style="transition-delay:0.2s">
+        <div class="project-placeholder">05</div>
+        <div class="project-overlay"></div>
+        <div class="project-info">
+          <p class="project-tag" data-es="Mobiliario · 2023" data-en="Furniture · 2023">Mobiliario · 2023</p>
+          <h3 class="project-name" data-es="Proyecto 05" data-en="Project 05">Proyecto 05</h3>
+        </div>
+      </article>
+
+      <article class="project-card reveal" style="transition-delay:0.24s">
+        <div class="project-placeholder">06</div>
+        <div class="project-overlay"></div>
+        <div class="project-info">
+          <p class="project-tag" data-es="Sistemas · 2022" data-en="Systems · 2022">Sistemas · 2022</p>
+          <h3 class="project-name" data-es="Proyecto 06" data-en="Project 06">Proyecto 06</h3>
+        </div>
+      </article>
+
+      <article class="project-card reveal" style="transition-delay:0.28s">
+        <div class="project-placeholder">07</div>
+        <div class="project-overlay"></div>
+        <div class="project-info">
+          <p class="project-tag" data-es="Packaging · 2022" data-en="Packaging · 2022">Packaging · 2022</p>
+          <h3 class="project-name" data-es="Proyecto 07" data-en="Project 07">Proyecto 07</h3>
+        </div>
+      </article>
+
+      <article class="project-card reveal" style="transition-delay:0.32s">
+        <div class="project-placeholder">08</div>
+        <div class="project-overlay"></div>
+        <div class="project-info">
+          <p class="project-tag" data-es="Transporte · 2022" data-en="Transport · 2022">Transporte · 2022</p>
+          <h3 class="project-name" data-es="Proyecto 08" data-en="Project 08">Proyecto 08</h3>
+        </div>
+      </article>
+
+    </div>
+  </section>
+
+  <section class="about-strip" id="sobre-mi">
+    <h2 class="about-title reveal">
+      Diseño<br>con<br><span>propósito</span>
+    </h2>
+    <div class="about-body reveal" style="transition-delay:0.15s">
+      <p data-es="Soy Fidel Manattini, diseñador industrial con foco en productos que equilibran función, forma y contexto de uso." data-en="I'm Fidel Manattini, an industrial designer focused on products that balance function, form, and context of use.">
+        Soy Fidel Manattini, diseñador industrial con foco en productos que equilibran función, forma y contexto de uso.
+      </p>
+      <p data-es="Mi proceso parte de la observación y el análisis del usuario, pasando por la exploración morfológica hasta llegar a soluciones que tienen sentido fabricarse." data-en="My process starts from observation and user analysis, through morphological exploration, arriving at solutions that make sense to manufacture.">
+        Mi proceso parte de la observación y el análisis del usuario, pasando por la exploración morfológica hasta llegar a soluciones que tienen sentido fabricarse.
+      </p>
+      <a href="#contacto" class="btn" data-es="Trabajemos juntos" data-en="Let's work together">Trabajemos juntos</a>
+    </div>
+  </section>
+
+  <footer id="contacto">
+    <div class="footer-logo">FM<span>.</span></div>
+    <span class="footer-copy">fidelmanattini@email.com &nbsp;·&nbsp; Buenos Aires, AR</span>
+    <span class="footer-copy">© 2025</span>
+  </footer>
+
+  <script>
+    // LANGUAGE SWITCHER
+    function setLang(lang) {
+      document.querySelectorAll('.lang-btn').forEach(btn => {
+        btn.classList.toggle('active', btn.textContent.toLowerCase() === lang);
+      });
+      document.documentElement.lang = lang;
+      document.querySelectorAll('[data-' + lang + ']').forEach(el => {
+        el.innerHTML = el.getAttribute('data-' + lang);
+      });
+      // Section title special case
+      const title = document.querySelector('.section-title');
+      if (title) title.innerHTML = lang === 'es' ? 'Proyectos <span>.</span>' : 'Projects <span>.';
+      const aboutTitle = document.querySelector('.about-title');
+      if (aboutTitle) aboutTitle.innerHTML = lang === 'es'
+        ? 'Diseño<br>con<br><span>propósito</span>'
+        : 'Design<br>with<br><span>purpose</span>';
+    }
+
+    // SCROLL REVEAL
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach(e => {
+        if (e.isIntersecting) { e.target.classList.add('visible'); observer.unobserve(e.target); }
+      });
+    }, { threshold: 0.1 });
+    document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
+
+    // ACTIVE NAV
+    window.addEventListener('scroll', () => {
+      let current = '';
+      document.querySelectorAll('section[id], footer[id]').forEach(s => {
+        if (window.scrollY >= s.offsetTop - 100) current = s.id;
+      });
+      document.querySelectorAll('.nav-links a').forEach(a => {
+        a.classList.toggle('active', a.getAttribute('href') === '#' + current);
+      });
+    });
+  </script>
+
+</body>
+</html>
